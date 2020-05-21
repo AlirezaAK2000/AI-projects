@@ -144,25 +144,25 @@ class Problem:
             new_node = Node(self._swap(data, row, col, row, col + 1), row, col + 1, parent, g=parent.g + 1,
                             action_occurred=move)
             new_node.set_h(self.h(new_node))
-            new_node.update_cost(parent)
+            # new_node.update_cost(parent)
             return new_node
         elif move == 'down':
             new_node = Node(self._swap(data, row, col, row + 1, col), row + 1, col, parent, g=parent.g + 1,
                             action_occurred=move)
             new_node.set_h(self.h(new_node))
-            new_node.update_cost(parent)
+            # new_node.update_cost(parent)
             return new_node
         elif move == 'left':
             new_node = Node(self._swap(data, row, col, row, col - 1), row, col - 1, parent, g=parent.g + 1,
                             action_occurred=move)
             new_node.set_h(self.h(new_node))
-            new_node.update_cost(parent)
+            # new_node.update_cost(parent)
             return new_node
         else:
             new_node = Node(self._swap(data, row, col, row - 1, col), row - 1, col, parent, g=parent.g + 1,
                             action_occurred=move)
             new_node.set_h(self.h(new_node))
-            new_node.update_cost(parent)
+            # new_node.update_cost(parent)
             return new_node
 
     def h1(self, state: Node):
@@ -191,7 +191,7 @@ class Problem:
                 students -= 1
 
             classes = {list(i.keys())[0] for i in d}
-            class_per_line += len(classes) / students
+            class_per_line += len(classes) - 1
 
         return class_per_line
 

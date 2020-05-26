@@ -55,9 +55,13 @@ class Problem:
 
     def goal_test(self, node: Node):
         data = copy.deepcopy(node.data)
-
+        row_contains_sharp = 0
         for d in data:
             if d.__contains__('#'):
+                row_contains_sharp = d.index('#')
+                # print(row_contains_sharp)
+                if row_contains_sharp != 0:
+                    return False
                 d.remove('#')
 
             groups = {list(s)[0] for s in d}
@@ -70,6 +74,7 @@ class Problem:
                 return False
 
         # print(data)
+
         return True
 
     def child_node(self, parent, action):
@@ -195,8 +200,12 @@ class Problem:
 
         return class_per_line
 
-    # def h3(self, state:Node):
-    #     pass
+    def h3(self, state: Node):
+        data = state.data
+        for row in data:
+            if not ('#' in row):
+                continue
+            return row.index('#')
 
     def h(self, state):
-        return max(self.h1(state), self.h2(state))
+        return max(self.h1(state), self.h2(state), self.h3(state))

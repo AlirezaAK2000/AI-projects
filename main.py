@@ -14,7 +14,7 @@ happens hear.
 # extracting class and height
 def find_matches(text):
     if text != '#':
-        pattern = '\d{3,}'
+        pattern = '\d{1,}'
         strs = re.findall(pattern, text)[0]
         return {text.replace(strs, ''): int(strs)}
     else:

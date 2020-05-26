@@ -17,6 +17,7 @@ def a_star_tree_search(first_state, problem):
     # until frontier become empty
     while frontier:
         current = min(frontier, key=lambda s: s.g + s.h)
+        print(f'depth is :{current.g}')
         if problem.goal_test(current):
             return info(current, nodes_expanded, nodes_created)
         frontier.remove(current)

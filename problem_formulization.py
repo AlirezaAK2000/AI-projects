@@ -1,5 +1,6 @@
 import copy
 from typing import Dict, List
+import itertools
 
 
 class Node:
@@ -10,7 +11,7 @@ class Node:
         self.parent = parent
         self.h = h
         self.g = g
-        # self.visited = False
+        self.visited = False
         self.cost = g + h
         if row == -1 or col == -1:
             for d in data:
@@ -51,31 +52,39 @@ class Problem:
         self.root = root
         self.n = n
         self.m = m
+        self.goals_generated = self.create_goals(root.data)
+        print(self.goals_generated)
         root.set_h(self.h(root))
 
+    def create_goals(self, data):
+        class_count = len(data)
+        row_size = len(data[0])
+        classes = dict()
+        for i in range(class_count):
+            classes[chr(ord('a') + i)] = []
+
+        for row in data:
+            for col in row:
+                if col != '#':
+                    classes[list(col.keys())[0]].append(list(col.values())[0])
+
+        print(classes)
+
+        goal_generated = []
+        for class_name in classes.keys():
+            classes[class_name].sort(reverse=True)
+
+            new_row = [{class_name: i} for i in classes[class_name]]
+            if len(classes[class_name]) < row_size:
+                new_row.insert(0, '#')
+            goal_generated.append(new_row)
+
+        goal_permutations = [list(f) for f in list(itertools.permutations(goal_generated))]
+        return goal_permutations
+
     def goal_test(self, node: Node):
-        data = copy.deepcopy(node.data)
-        row_contains_sharp = 0
-        for d in data:
-            if d.__contains__('#'):
-                row_contains_sharp = d.index('#')
-                # print(row_contains_sharp)
-                if row_contains_sharp != 0:
-                    return False
-                d.remove('#')
 
-            groups = {list(s)[0] for s in d}
-            if len(groups) > 1:
-                return False
-            group = list(d[0])[0]
-            group = group[0]
-            nums = [a[group] for a in d]
-            if not all(nums[i] >= nums[i + 1] for i in range(len(nums) - 1)):
-                return False
-
-        # print(data)
-
-        return True
+        return node.data in self.goals_generated
 
     def child_node(self, parent, action):
         return self.result(action, parent)
@@ -207,5 +216,8 @@ class Problem:
                 continue
             return row.index('#')
 
+
+
+
     def h(self, state):
-        return max(self.h1(state), self.h2(state), self.h3(state))
+        return self.h1(state) + self.h2(state) + self.h3(state)

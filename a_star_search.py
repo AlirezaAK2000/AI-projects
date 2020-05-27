@@ -54,11 +54,12 @@ def info(solution, nodes_expanded, nodes_created):
     actions = []
     depth = solution.g
     while solution:
-        path.append(solution)
-        actions.append(solution.action_occurred)
+        path.insert(0, solution)
+        try:
+            actions.insert(0, (solution.action_occurred)['name'])
+        except:
+            pass
         solution = solution.parent
-    path = list(reversed(path))
-    actions = list(reversed(actions))
     return {
         'depth': depth,
         'path': path,

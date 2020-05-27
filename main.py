@@ -14,9 +14,10 @@ happens hear.
 # extracting class and height
 def find_matches(text):
     if text != '#':
-        pattern = '\d{1,}'
-        strs = re.findall(pattern, text)[0]
-        return {text.replace(strs, ''): int(strs)}
+        pattern = '[A-Z]|\d{1,}|[a-z]'
+        strs = re.findall(pattern, text)
+        # print(strs)
+        return [strs[1], int(strs[0])]
     else:
         return text
 

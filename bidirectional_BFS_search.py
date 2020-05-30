@@ -7,23 +7,22 @@ problem and goal needed for this algorithm
 '''
 
 
-def bidirectional_search(problem: Problem, goal: Node):
+def bidirectional_search(problem: Problem):
     nodes_expanded = 2
     nodes_created = 2
     first_state = problem.root
     explored_f = {first_state}
-    explored_g = {goal}
-    q_f = deque()
-    q_g = deque()
-    q_f.append(first_state)
-    q_g.append(goal)
+    goals = {Node(goal) for goal in problem.goals_generated}
+    explored_g = goals
+    q_f = deque([first_state])
+    q_g = deque(list(explored_g))
 
     while q_g and q_f:
         if q_f:
             nodes_expanded += 1
             visited_state = q_f.popleft()
-            if visited_state == goal or visited_state in q_g:
-                return info(q_g, visited_state, goal, nodes_expanded, nodes_created)
+            if visited_state in goals or visited_state in q_g:
+                return info(q_g, visited_state, visited_state, nodes_expanded, nodes_created)
             for action in problem.actions(visited_state):
                 child = problem.child_node(visited_state, action)
                 nodes_created += 1
@@ -34,7 +33,12 @@ def bidirectional_search(problem: Problem, goal: Node):
             nodes_expanded += 1
             visited_state = q_g.popleft()
             if visited_state == first_state or visited_state in q_f:
-                return info(q_f, visited_state, goal, nodes_expanded, nodes_created)
+                visited_state_parent = None
+                while visited_state:
+                    if visited_state.parent is None:
+                        visited_state_parent = visited_state
+                    visited_state = visited_state_parent.parent
+                return info(q_f, visited_state, visited_state_parent, nodes_expanded, nodes_created)
             for action in problem.actions(visited_state):
                 child = problem.child_node(visited_state, action)
                 nodes_created += 1
@@ -83,6 +87,6 @@ def actions_occurred(path):
     actions = []
     for node in path:
         if node.action_occurred:
-            actions.append(node.action_occurred)
+            actions.append((node.action_occurred)['name'])
 
     return actions

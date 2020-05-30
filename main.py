@@ -16,7 +16,6 @@ def find_matches(text):
     if text != '#':
         pattern = '[A-Z]|\d{1,}|[a-z]'
         strs = re.findall(pattern, text)
-        # print(strs)
         return [strs[1], int(strs[0])]
     else:
         return text
@@ -34,11 +33,7 @@ def use_IDS(problem):
 
 
 def use_bs(problem):
-    goal = []
-    for _ in range(n): goal.append(input().split())
-    goal = [list(map(find_matches, s)) for s in goal]
-    goal_node = Node(goal)
-    res = bidirectional_search(problem, goal_node)
+    res = bidirectional_search(problem)
     print_info(res)
 
 

@@ -1,16 +1,15 @@
-'''
+"""
 A star search implementation with graph search
 first state and fomulized problem needed
 cost function implemented in the problem object
 and cost while set and update in the creation of
 child node.
-'''
+"""
 
 
 def a_star_tree_search(first_state, problem):
     current = first_state
     frontier = set()
-    explored = set()
     nodes_created = 1
     nodes_expanded = 1
     frontier.add(current)
@@ -21,13 +20,9 @@ def a_star_tree_search(first_state, problem):
         if problem.goal_test(current):
             return info(current, nodes_expanded, nodes_created)
         frontier.remove(current)
-        explored.add(current)
         children = [problem.child_node(current, action) for action in problem.actions(current)]
         nodes_created += len(children)
         for child in children:
-            if child in explored:
-                continue
-
             if child in frontier:
                 must_change = False
                 t = None

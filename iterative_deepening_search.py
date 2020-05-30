@@ -54,7 +54,7 @@ class IDS:
         depth = solution.g
         while solution:
             path.insert(0, solution)
-            actions.insert(0, solution.action_occurred)
+            actions.insert(0, (solution.action_occurred)['name'])
             solution = solution.parent
 
         return {

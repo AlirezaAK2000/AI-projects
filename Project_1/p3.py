@@ -1,4 +1,4 @@
-from problem_formulization import Node, Problem
+from Project_1.problem_formulation import Node, Problem
 from _collections import deque
 
 '''
@@ -34,10 +34,11 @@ def bidirectional_search(problem: Problem):
             visited_state = q_g.popleft()
             if visited_state == first_state or visited_state in q_f:
                 visited_state_parent = None
-                while visited_state:
-                    if visited_state.parent is None:
+                visited = visited_state
+                while visited:
+                    if visited.parent is None:
                         visited_state_parent = visited_state
-                    visited_state = visited_state_parent.parent
+                    visited = visited.parent
                 return info(q_f, visited_state, visited_state_parent, nodes_expanded, nodes_created)
             for action in problem.actions(visited_state):
                 child = problem.child_node(visited_state, action)

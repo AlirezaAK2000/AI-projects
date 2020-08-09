@@ -1,7 +1,7 @@
-from problem_formulization import Node, Problem
-from iterative_deepening_search import IDS
-from a_star_search import a_star_tree_search
-from bidirectional_BFS_search import bidirectional_search
+from Project_1.problem_formulation import Node, Problem
+from Project_1.p1 import IDS
+from Project_1.p2 import a_star_tree_search
+from Project_1.p3 import bidirectional_search
 import re
 
 '''
